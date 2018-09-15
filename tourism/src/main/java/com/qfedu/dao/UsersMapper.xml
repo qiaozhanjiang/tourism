@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qfedu.dao.UsersMapper">
+	<resultMap id="BaseResultMap" type="com.qfedu.pojo.Users">
+		<id column="uuid" property="uuid" jdbcType="CHAR" />
+		<result column="username" property="username" jdbcType="CHAR" />
+		<result column="password" property="password" jdbcType="CHAR" />
+		<result column="nickname" property="nickname" jdbcType="CHAR" />
+		<result column="gender" property="gender" jdbcType="CHAR" />
+		<result column="id" property="id" jdbcType="CHAR" />
+		<result column="country" property="country" jdbcType="CHAR" />
+		<result column="tel" property="tel" jdbcType="CHAR" />
+		<result column="email" property="email" jdbcType="CHAR" />
+		<result column="birth" property="birth" jdbcType="DATE" />
+		<result column="photo" property="photo" jdbcType="CHAR" />
+		<result column="newPassword" property="newpassword"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		uuid, username, password, nickname, gender, id, country,
+		tel, email, birth,
+		photo,newPassword
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from users
+		where uuid = #{uuid,jdbcType=CHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from users
+		where uuid = #{uuid,jdbcType=CHAR}
+	</delete>
+	<insert id="insert" parameterType="com.qfedu.pojo.Users">
+		<selectKey resultType="java.lang.String" keyProperty="uuid"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into users (username, password, nickname,
+		gender, id, country,
+		tel,
+		email, birth, photo, spare1,
+		spare2)
+		values
+		(#{username,jdbcType=CHAR}, #{password,jdbcType=CHAR},
+		#{nickname,jdbcType=CHAR},
+		#{gender,jdbcType=CHAR},
+		#{id,jdbcType=CHAR}, #{country,jdbcType=CHAR}, #{tel,jdbcType=CHAR},
+		#{email,jdbcType=CHAR}, #{birth,jdbcType=DATE},
+		#{photo,jdbcType=CHAR}, #{spare1,jdbcType=VARCHAR},
+		#{spare2,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.qfedu.pojo.Users">
+		<selectKey resultType="java.lang.String" keyProperty="uuid"
+			order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+		insert into users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="nickname != null">
+				nickname,
+			</if>
+			<if test="gender != null">
+				gender,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="country != null">
+				country,
+			</if>
+			<if test="tel != null">
+				tel,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="birth != null">
+				birth,
+			</if>
+			<if test="photo != null">
+				photo,
+			</if>
+			<if test="spare1 != null">
+				spare1,
+			</if>
+			<if test="spare2 != null">
+				spare2,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="username != null">
+				#{username,jdbcType=CHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				#{nickname,jdbcType=CHAR},
+			</if>
+			<if test="gender != null">
+				#{gender,jdbcType=CHAR},
+			</if>
+			<if test="id != null">
+				#{id,jdbcType=CHAR},
+			</if>
+			<if test="country != null">
+				#{country,jdbcType=CHAR},
+			</if>
+			<if test="tel != null">
+				#{tel,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=CHAR},
+			</if>
+			<if test="birth != null">
+				#{birth,jdbcType=DATE},
+			</if>
+			<if test="photo != null">
+				#{photo,jdbcType=CHAR},
+			</if>
+			<if test="spare1 != null">
+				#{spare1,jdbcType=VARCHAR},
+			</if>
+			<if test="spare2 != null">
+				#{spare2,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+
+	<update id="updateByUser" parameterType="com.qfedu.pojo.Users">
+		update users
+		<set>
+			<if test="newPassword != null">
+				password = #{newPassword,jdbcType=CHAR},
+			</if>
+			<if test="nickname != null">
+				nickname = #{nickname,jdbcType=CHAR},
+			</if>
+			<if test="gender != null">
+				gender = #{gender,jdbcType=CHAR},
+			</if>
+			<if test="id != null">
+				id = #{id,jdbcType=CHAR},
+			</if>
+			<if test="country != null">
+				country = #{country,jdbcType=CHAR},
+			</if>
+			<if test="tel != null">
+				tel = #{tel,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=CHAR},
+			</if>
+			<if test="birth != null">
+				birth = #{birth,jdbcType=DATE},
+			</if>
+			<if test="photo != null">
+				photo = #{photo,jdbcType=CHAR},
+			</if>
+		</set>
+		where username =
+		#{username,jdbcType=CHAR} and password =
+		#{password,jdbcType=CHAR}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.qfedu.pojo.Users">
+		update users
+		set username = #{username,jdbcType=CHAR},
+		password = #{password,jdbcType=CHAR},
+		nickname =
+		#{nickname,jdbcType=CHAR},
+		gender = #{gender,jdbcType=CHAR},
+		id =
+		#{id,jdbcType=CHAR},
+		country = #{country,jdbcType=CHAR},
+		tel =
+		#{tel,jdbcType=CHAR},
+		email = #{email,jdbcType=CHAR},
+		birth =
+		#{birth,jdbcType=DATE},
+		photo = #{photo,jdbcType=CHAR},
+		spare1 =
+		#{spare1,jdbcType=VARCHAR},
+		spare2 = #{spare2,jdbcType=VARCHAR}
+		where
+		uuid = #{uuid,jdbcType=CHAR}
+	</update>
+</mapper>

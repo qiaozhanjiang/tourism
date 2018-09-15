@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+	<!-- 设置扫描组件的包： 我们的contoller（其实相当Action）类存在的包，会扫描指定的包下一层和所有子孙层下的java文件 -->
+	<context:component-scan base-package="com.qfedu" />
+
+
+	<!--配置静态资源的访问映射，此配置中的文件，将不被前端控制器拦截 -->
+	<mvc:resources mapping="/js/**" location="/js/" />
+	<mvc:resources mapping="/css/**" location="/css/" />
+	<mvc:resources mapping="/fonts/**" location="/fonts/" />
+	<mvc:resources mapping="/image/**" location="/image/" />
+
+
+
+
+	<!-- 可以把spring中定义的bean直接引用到springmvc的容器中，去除spring容器，也就是说无需在web.xml中定义监听器初始化spring容器 
+		/> -->
+	<import resource="applicationContext.xml" />
+	<!-- 配置映射解析器：如何将控制器返回的结果字符串，转换为一个物理的视图文件 -->
+	<!-- id和class不要改动，这并不是提供给开发者进行使用的bean对象，是springmvc内部实现过程中使用的一个bean -->
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+
+		
+		<!--prefix前缀 -->
+		<!-- <property name="prefix" value="" />-->
+
+		<!-- 后缀 -->
+		<!-- <property name="suffix" value="" />-->
+		 
+
+
+	</bean>
+
+
+	<!--如果想要使用springmvc提供的对文件上传的封装功能，比如导入一下bean -->
+
+	<!-- MultipartResolver是一个springmvc提供的专门真实文件上传进行封装的处理器，完成文件上传的功能 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+
+		<!-- 配置上传的编码 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+		<!-- 限制文件上传大小 ，单位为字节 -->
+		<property name="maxUploadSize" value="102400000"></property>
+
+
+	</bean>
+
+
+	<!-- springmvc默认并不是对所有的 注解进行扫描，只会扫描重要的。有些注解需要开启之后，才会对齐进行扫描 -->
+
+	<!-- 我们可以理解为mvc:annotation-driven启用部分注解，这些注解默认不会被扫描到 -->
+	<!-- 比如 @controlleradvice @responsebody -->
+	<mvc:annotation-driven />
+
+	<!-- 将异常处理类声明成一个bean -->
+	<!-- <bean id="ex" class="com.qfedu.exception.ExceptionResovler"></bean> -->
+
+
+
+</beans>
